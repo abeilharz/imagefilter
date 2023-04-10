@@ -1,22 +1,17 @@
 pipeline {
-    agent none 
+    agent any
+    triggers {
+        pollSCM('* * * * *')
+    } 
+    //agent none 
     stages{
-        stage ('Git-Checkout'){
-            agent{
-                label 'controller'
-            }
-            steps {
-                echo "Checking out from Git Repo";
-                git branch: 'main', url: 'https://github.com/abeilharz/springboot.git'
-            }
-        }
         stage ('Compile'){
             agent{
                 label 'agent1'
             }
             steps {
                 echo "Compiling the Code"
-                //sh './mvnw compile'
+                sh './mvnw compile'
             }
         }
         stage ('Unit Test'){
